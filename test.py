@@ -2,6 +2,6 @@
 
 import time
 
-from raspblink import blink
+from src.raspblink import blink
 
 blink(period=0.3, n=5)
