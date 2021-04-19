@@ -3,7 +3,7 @@ __all__ = ["blink"]
 import logging
 import time
 import pigpio
-from .waveform import generate_waveform
+from . import generator
 
 logging.basicConfig()
 logger = logging.getLogger(__name__)
@@ -19,7 +19,7 @@ if not pi.connected:
 
 def blink(period: float = 1.00, n: int = 1) -> None:
     assert 0.1 <= period < 10.0, "period must be within 0.1 - 10.0s"
-    amp_values = generate_waveform()
+    amp_values = generator.sine_waveform()
     delay = period / 100
 
     for i in range(1, n + 1):
