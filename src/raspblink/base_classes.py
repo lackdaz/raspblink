@@ -2,7 +2,7 @@ __all__ = ["BasePWM", "BaseLED", "Singleton"]
 
 from abc import ABC, abstractmethod
 from typing import Set, List, Optional, Callable
-from threading import Thread
+from threading import Thread, Event
 
 
 class BasePWM(ABC):
@@ -35,14 +35,15 @@ class BaseThread(ABC):
     @abstractmethod
     def __init__(self):
         self.daemon_running: bool = False
+        self._kill: Event = Event()
         self.thread: Optional[Thread] = None
 
     @abstractmethod
-    def thread_daemon(self, callback: Callable):
+    def thread_daemon(self, callback: Callable, delay: float):
         pass
 
     @abstractmethod
-    def start(self, callback: Callable):
+    def start(self, callback: Callable, delay: float):
         pass
 
     @abstractmethod

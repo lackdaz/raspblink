@@ -14,19 +14,21 @@ class LEDThread(BaseThread):
         self.daemon_running: bool = False
         self._kill: Event = Event()
         self.thread: Optional[Thread] = None
+        self.testy_test = 1
 
-    def thread_daemon(self, callback: Callable):
+    def thread_daemon(self, callback: Callable, delay: float):
         """instance method to pulse indefinitely"""
         while True:
-            # if not self.daemon_running:
-            # break
             callback()
-            is_killed = self._kill.wait()
+            is_killed = self._kill.wait(delay)
             if is_killed:
                 break
 
-    def start(self, callback: Callable):
-        self.thread = Thread(target=self.thread_daemon, args=[callback])
+    def kill(self):
+        self._kill.set()
+
+    def start(self, callback: Callable, delay: float):
+        self.thread = Thread(target=self.thread_daemon, args=[callback, delay])
         self.__class__.thread_pool.append(self.thread)
         self.daemon_running = True
         self.thread.start()

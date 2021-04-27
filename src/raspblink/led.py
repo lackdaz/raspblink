@@ -35,12 +35,10 @@ class LED(BaseLED, Pwm, LEDThread):
             time.sleep(delay)
 
     def pulse(self):
-        while True:
-            logger.debug(f"cairo!")
-            time.sleep(5)
+        logger.debug(f"cairo!")
 
     def test_start(self, duration=5.0):
-        self.start(self.pulse)
+        self.start(self.pulse, delay=duration)
 
     def test_stop(self):
         self.stop(self.switch_off)
